@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ItemsRoutes = void 0;
 const common_routes_config_1 = require("../common/common.routes.config");
 const got_1 = __importDefault(require("got"));
-const types_1 = require("../../typings/types");
 class ItemsRoutes extends common_routes_config_1.CommonRoutesConfig {
     constructor(app) {
         super(app, 'ItemsRoutes');
@@ -28,21 +27,24 @@ class ItemsRoutes extends common_routes_config_1.CommonRoutesConfig {
             // Try and cacth to handle errors
             try {
                 // as an async function we wait until we get the responde from the external api
-                const searchResponse = yield got_1.default(`https://api.mercadolibre.com/sites/MLA/search`, { searchParams: {
+                const searchResponse = yield got_1.default(`https://api.mercadolibre.com/sites/MLA/search`, {
+                    searchParams: {
                         q: (_a = req.query.q) === null || _a === void 0 ? void 0 : _a.toString(),
                         limit: '4'
-                    } });
-                let response = new types_1.ItemsResponse(JSON.parse(searchResponse.body)).result;
+                    }
+                }).json();
+                const categoryId = searchResponse.results[0].category_id;
                 // We need to get category tree to build the breadcrumb later on
-                const categoryResponse = yield got_1.default(`https://api.mercadolibre.com/categories/${response.categoryId}`);
+                const categoryResponse = yield got_1.default(`https://api.mercadolibre.com/categories/${categoryId}`).json();
                 // Now we can send our results with category and category tree
-                response = Object.assign(Object.assign({}, response), { category_path: JSON.parse(categoryResponse.body).path_from_root });
+                const response = Object.assign(Object.assign({}, searchResponse), { category_path: categoryResponse.path_from_root });
                 // const parsedItems = new ItemsResponse(rawResponse).parsedResponse;
                 // We send the result
                 res.status(200).send(response);
             }
             catch (err) {
                 // We send an error back if any
+                console.error(err);
                 res.status(500).json({
                     error: `🚨 External API request returned an error`,
                     detail: err
@@ -53,13 +55,14 @@ class ItemsRoutes extends common_routes_config_1.CommonRoutesConfig {
         this.app.route(`/api/items/:id`)
             .get((req, res) => __awaiter(this, void 0, void 0, function* () {
             try {
-                const item = yield got_1.default.get(`https://api.mercadolibre.com/items/${req.params.id}`);
-                const description = yield got_1.default.get(`https://api.mercadolibre.com/items/${req.params.id}/description`);
-                const result = {
-                    item: JSON.parse(item.body),
-                    description: JSON.parse(description.body)
-                };
-                res.status(200).send(result);
+                const item = yield got_1.default.get(`https://api.mercadolibre.com/items/${req.params.id}`).json();
+                const description = yield got_1.default.get(`https://api.mercadolibre.com/items/${req.params.id}/description`).json();
+                const categoryId = item.category_id;
+                // We need to get category tree to build the breadcrumb later on
+                const categoryResponse = yield got_1.default(`https://api.mercadolibre.com/categories/${categoryId}`).json();
+                // Now we can send our results with category and category tree
+                const response = Object.assign(Object.assign(Object.assign({}, item), description), { category_path: categoryResponse.path_from_root });
+                res.status(200).send(response);
             }
             catch (err) {
                 // We send an error back if any

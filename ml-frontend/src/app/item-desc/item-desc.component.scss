@@ -1,13 +1,14 @@
 .product {
   background-color: white;
   display: grid;
-  grid-template-columns: 1.5fr .5fr;
+  grid-template-columns: 1.4fr .6fr;
   grid-template-rows: auto auto;
   grid-template-areas: "picture price" "description description";
   padding: 32px;
   .picture {
     grid-area: picture;
     grid-row: 1 / 2;
+    padding-right: 16px;
     img {
         width: 100%;
     }
@@ -15,6 +16,7 @@
   .price-title {
     grid-area: price;
     grid-row: 1 / 2;
+    padding: 16px;
     .stats {
         font-size: 14px;
         color: #666666;

@@ -4,7 +4,7 @@
   "description": "A NodeJS/Express & Angular app using Typescript",
   "main": "index.js",
   "scripts": {
-    "build-front": "cd ml-frontend && npm i && ng build --prod",
+    "build-front": "cd ml-frontend && npm i && npm run test && ng build --prod",
     "build": "npm i && npm run build-front && tsc",
     "start": "npm run build && node dist/ml-backend/index.js",
     "dev": "nodemon --watch 'ml-backend/**' --ext 'ts' --exec 'ts-node ml-backend/index.ts'"

@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { ResultsListComponent } from './results-list/results-list.component';
 import { ItemDescComponent } from './item-desc/item-desc.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: 'items',
     component: ResultsListComponent
