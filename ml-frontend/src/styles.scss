@@ -1,0 +1,51 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+* {
+    margin:0;
+    padding: 0;
+    box-sizing: border-box;
+    color: #333333;
+    html, body {
+        height: 100vh;
+        background-color: #EEEEEE;
+        font-family: 'Proxima Nova',-apple-system,'Helvetica Neue',Helvetica,Roboto,Arial,sans-serif;
+        main {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+            width: 100vw;
+        
+            section {
+                display: block;
+                width: 73vw;
+                padding: 1rem;
+        
+                ul {
+                    width: 100%;
+                    flex-direction: column;
+                    padding-bottom: 1rem;
+                    list-style: none;
+                    &.breadcrumb {
+                        li {
+                            display: inline-flex;
+                            font-size: .9rem;
+                            color: #999999;
+                            &:not(:last-child)::after {
+                                content: ">";
+                                margin-right: .3rem;
+                            }
+                            &:last-child {
+                                font-weight: bold;
+                            }
+                        }                
+                    }
+                }
+
+                @media screen and (max-width:1024px) {
+                    width: 100vw;
+                    padding: 0;
+                    padding-top: 1rem;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,38 @@
+{
+  "name": "ml-challenge",
+  "version": "1.0.0",
+  "description": "A NodeJS/Express & Angular app using Typescript",
+  "main": "index.js",
+  "scripts": {
+    "build-front": "cd ml-frontend && npm i && ng build --prod",
+    "build": "npm i && npm run build-front && tsc",
+    "start": "npm run build && node dist/ml-backend/index.js",
+    "dev": "nodemon --watch 'ml-backend/**' --ext 'ts' --exec 'ts-node ml-backend/index.ts'"
+  },
+  "keywords": [
+    "typescript",
+    "angular",
+    "nodejs",
+    "express"
+  ],
+  "author": "Andres Taiana",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.3.0",
+    "express": "^4.17.1",
+    "got": "^11.8.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.10",
+    "@types/debug": "^4.1.5",
+    "@types/express": "^4.17.11",
+    "@types/got": "^9.6.11",
+    "@typescript-eslint/eslint-plugin": "^4.22.1",
+    "@typescript-eslint/parser": "^4.22.1",
+    "eslint": "^7.25.0",
+    "source-map-support": "^0.5.19",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  }
+}

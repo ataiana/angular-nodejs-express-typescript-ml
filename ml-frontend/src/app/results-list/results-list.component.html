@@ -1,0 +1,25 @@
+<main *ngIf="searchResults">
+  <section>
+    <ul class="breadcrumb">
+      <li *ngFor="let item of searchResults?.category_path">
+        {{ item.name }}
+      </li>
+    </ul>
+    <ul class="product-list">
+      <li
+        *ngFor="let item of resultsList"
+        [routerLink]="['/items', item.id]"
+      >
+        <img [src]="item.thumbnail" alt="" />
+        <div class="desc-area">
+          <div class="price">
+            $ {{ getPrice(item.price)[0] }} <sup>{{ getPrice(item.price)[1] }}</sup>
+            <img *ngIf="item.shipping.free_shipping" src="assets/truck.svg" alt="envio" />
+            <span>{{ item.address.state_name }}</span>
+          </div>
+          <div class="title">{{ item.title }}</div>
+        </div>
+      </li>
+    </ul>
+  </section>
+</main>

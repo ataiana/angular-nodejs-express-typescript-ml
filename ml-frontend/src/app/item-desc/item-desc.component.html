@@ -1,0 +1,34 @@
+<main *ngIf="searchResults">
+  <section>
+    <ul class="breadcrumb">
+      <li *ngFor="let item of searchResults?.category_path">
+        {{ item.name }}
+      </li>
+    </ul>
+    <div class="product">
+      <div class="picture">
+        <img [src]="searchResults.pictures[0].url" alt="Foto del producto" />
+      </div>
+
+      <div class="price-title">
+        <div class="stats">
+          {{ searchResults.condition === "new" ? "Nuevo" : "Usado" }}
+          - {{ searchResults.sold_quantity }} vendidos
+        </div>
+        <div class="title">
+            {{ searchResults.title }}
+        </div>
+        <div class="price">
+            $ {{ getPrice(searchResults.price)[0] }} <sup>{{ getPrice(searchResults.price)[1] }}</sup>
+        </div>
+        <button>Comprar</button>
+      </div>
+      <div class="description">
+          <h5>Descripción del producto</h5>
+          <p>
+              {{ searchResults.plain_text }}
+          </p>
+      </div>
+    </div>
+  </section>
+</main>
